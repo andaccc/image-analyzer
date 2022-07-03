@@ -1,0 +1,26 @@
+{
+  "name": "Image viewer",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "description": "Image viewer",
+  "author": "https://github.com/andaccc/",
+  "homepage_url": "https://github.com/andaccc/image-viewer-react",
+  "background": {
+    "scripts": "chromeExt/background.js"
+  },
+  "options_ui": {
+    "page": "chromeExt/options.html"
+  },
+  "browser_action": {
+    "default_icon": "logo512.png",
+    "default_popup": "chromeExt/popup.html"
+  },
+  "permissions": [
+    "contextMenus", 
+    "tabs"
+  ],
+  "icons": {
+      "16": "logo192.png",
+      "512": "logo512.png"
+  }
+}
