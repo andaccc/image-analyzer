@@ -4,4 +4,5 @@
 - Color Map
 
 # TODO
-color quantization
+- color quantization
+- resize all cards
