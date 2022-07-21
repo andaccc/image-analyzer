@@ -28,8 +28,8 @@ Chart.register(...registerables)
 
 
 // image pixel limit
-const WIDTH_LIMIT = 500; 
-const HEIGHT_LIMIT = 500;
+const WIDTH_LIMIT = 300; 
+const HEIGHT_LIMIT = 300;
 
 const ViewerImage = (params: any) => {
 	const [rawData, setRawData] = useState(params.image.imageData)
@@ -107,7 +107,8 @@ const ViewerImage = (params: any) => {
 						img.height *= WIDTH_LIMIT / img.width
 						img.width = WIDTH_LIMIT;
 					}
-					else if (img.height > HEIGHT_LIMIT) {
+					
+					if (img.height > HEIGHT_LIMIT) {
 						img.width *= HEIGHT_LIMIT / img.height 
 						img.height = HEIGHT_LIMIT;
 					}

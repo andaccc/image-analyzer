@@ -218,7 +218,11 @@ const ImageAnalyzer = () => {
             <Item>
               {
                 viewImage?
-                  <img style={imageStyle as React.CSSProperties} src={viewImage} onLoad={onViewImageLoad} alt="raw"/>
+                  <img 
+                    style={imageStyle as React.CSSProperties} 
+                    src={viewImage} 
+                    onLoad={onViewImageLoad} alt="raw"
+                  />
                 : <p>Drop / Ctrl+V paste image here</p>
               }
             </Item>

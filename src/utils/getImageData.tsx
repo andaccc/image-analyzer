@@ -40,7 +40,21 @@ function convertURIToImageData(URI: string) {
   });
 }
 
+/**
+ * resize ImageData for height/ width
+ */
+function resizeImageData(imgData: ImageData, width: number, height: number) {
+  var tmpCanvas = document.createElement("canvas")
+  tmpCanvas.width = width
+  tmpCanvas.height = height
+  var ctx = tmpCanvas.getContext("2d")
+  ctx!.putImageData(imgData, 0, 0, 0, 0, imgData.width, imgData.height)
+  const resizedImgData = ctx!.getImageData(0, 0, tmpCanvas.width, tmpCanvas.height)
+  return resizedImgData
+}
+
 export {
   getImageData,
-  convertURIToImageData
+  convertURIToImageData,
+  resizeImageData
 } 
