@@ -57,6 +57,9 @@ const GreyScale = (params: {imageData: ImageData}) => {
     // prepare hist
     let valueData = getHist(greyImageData.data, 0, 0, greyImageData.width, greyImageData.height)
     
+
+    // draw hist chart
+    // TODO: separate function
     let xVal = [] as number[]
     for (let i=0; i < valueData.length; i++) {
       xVal.push(valueData.length - 1 - i)
@@ -80,6 +83,7 @@ const GreyScale = (params: {imageData: ImageData}) => {
     // why no data label in the end?
     // https://www.chartjs.org/docs/latest/axes/cartesian/_common_ticks.html
     if (!histCanvasRef?.current) return 
+
     var chart = new Chart( histCanvasRef.current, {
       type: 'line' as ChartType, 
       data: chartData,
@@ -129,21 +133,26 @@ const GreyScale = (params: {imageData: ImageData}) => {
 
     // make image within grid
     const imageStyle = {
-      width: '50%',
-      height: '50%'
+      // width: '50%',
+      // height: '50%'
     }
 
     
   return (
-    <Stack spacing={1}>
-      <div>
+    <Stack 
+      spacing={1}
+      justifyContent="center"
+    >
+      <div
+        style={{ padding-bottom: "10px" }}
+      >
         {
           greyImageUrl &&
           <img style={imageStyle as React.CSSProperties} src={greyImageUrl} alt="gray thumbnail"/>
         }
       </div>
 
-      <div>
+      <div style={{ display: "block", margin:"0 auto", width:"300px", height: "150px" }}>
         {
           <canvas ref={histCanvasRef} />
         }
