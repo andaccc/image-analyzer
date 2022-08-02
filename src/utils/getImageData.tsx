@@ -36,7 +36,7 @@ function convertURIToImageData(URI: string) {
       resolve(context.getImageData(0, 0, canvas.width, canvas.height))
       
     }, false);
-    image.src = URI;
+    image.src = URI
   });
 }
 
@@ -45,6 +45,8 @@ function convertURIToImageData(URI: string) {
  */
 function resizeImageData(imgData: ImageData, width: number, height: number) {
   var tmpCanvas = document.createElement("canvas")
+
+  // need to resize in ratio
   tmpCanvas.width = width
   tmpCanvas.height = height
   var ctx = tmpCanvas.getContext("2d")

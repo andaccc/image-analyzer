@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
-import { convertURIToImageData } from "../utils/getImageData";
+import { convertURIToImageData, resizeImageData } from "../utils/getImageData";
 
 import GreyScale from "./greyScale";
 import ColorKey from "./colorKey";
@@ -24,8 +24,10 @@ const DIM_LIMIT = 300
 const ImageAnalyzer = () => {
   // image url
   const [viewImage, setViewImage] = useState<string>("")
+  const [imageLoaded, setImageLoaded] = useState(false)
   const [viewImageScale, setViewImageScale] = useState(1)
 
+  const [rawImageUri, setRawImageUri] = useState<string>("")
   const [rawImageData, setRawImageData] = useState<ImageData>(new ImageData(1,1))
 
   const dropRef = useRef<HTMLDivElement>(null)
@@ -53,7 +55,9 @@ const ImageAnalyzer = () => {
   useEffect(() => {
     convertURIToImageData(viewImage)
     .then((res) => {
-      setRawImageData(res)
+      let ret = resizeImageData(res, 300, 300)
+      setRawImageData(ret)
+      setImageLoaded(true)
     })
   }, [viewImage])
 
@@ -231,8 +235,7 @@ const ImageAnalyzer = () => {
             {/* GreyScale  */}
             <Item>
               {
-                viewImage &&
-                  <GreyScale imageData={rawImageData}/>
+                imageLoaded && <GreyScale imageData={rawImageData}/>
               }
             </Item>
           </Grid>
@@ -240,7 +243,7 @@ const ImageAnalyzer = () => {
             {/* Color Wheel */}
             <Item>
               {
-                viewImage && <ColorWheel imageData={rawImageData}/>
+                imageLoaded && <ColorWheel imageData={rawImageData}/>
               }
             </Item>
           </Grid>
@@ -248,7 +251,7 @@ const ImageAnalyzer = () => {
             {/* Color Key */}
             <Item>
               {
-                viewImage && <ColorKey imageData={rawImageData}/>
+                imageLoaded && <ColorKey imageData={rawImageData}/>
               }
             </Item>
           </Grid>
