@@ -4,8 +4,6 @@ import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 import { styled } from '@mui/material/styles'
 
-import { getImageData } from '../utils/getImageData'
-
 import colorWheelPng from './../resources/colorwheel.png'
 
 var quantize = require('quantize')

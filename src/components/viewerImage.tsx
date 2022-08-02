@@ -13,7 +13,7 @@
  */
 import React, {useState, useEffect, useRef, useContext} from "react";
 
-import { getImageData } from '../utils/getImageData'
+import * as imageUtils from "../utils/imageUtils";
 import { grayScaleFilter } from '../utils/imageFilter'
 import { attachDrag } from '../utils/dragHandler'
 import { attachZoom } from '../utils/zoomHandler'
@@ -114,7 +114,7 @@ const ViewerImage = (params: any) => {
 					}
 		
 					// create tmp canvas to get the image array data
-					setImgData(getImageData(img))
+					setImgData(imageUtils.getImageData(img))
 		
 					attachDrag(img)
 					attachZoom(img)

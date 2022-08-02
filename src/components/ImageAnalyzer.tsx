@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
-import { convertURIToImageData, resizeImageData } from "../utils/getImageData";
+import * as imageUtils from "../utils/imageUtils";
 
 import GreyScale from "./greyScale";
 import ColorKey from "./colorKey";
@@ -53,12 +53,12 @@ const ImageAnalyzer = () => {
   }, []) // run only once
   
   useEffect(() => {
-    convertURIToImageData(viewImage)
-    .then((res) => {
-      let ret = resizeImageData(res, 300, 300)
-      setRawImageData(ret)
-      setImageLoaded(true)
-    })
+    // convertURIToImageData(viewImage)
+    // .then((res) => {
+    //   let ret = resizeImageData(res, 300, 300)
+    //   setRawImageData(ret)
+    //   setImageLoaded(true)
+    // })
   }, [viewImage])
 
   /**
@@ -122,19 +122,33 @@ const ImageAnalyzer = () => {
         reader.readAsDataURL(imageBlob)
         reader.onload = (evt: ProgressEvent<FileReader>) => {
           // image loaded
-          console.log('image loaded')
           if (!evt.target?.result) return reject('invalid image data')
 
           let imageUri = evt.target.result
+          if (!imageUri || typeof imageUri !== 'string') return reject('invalid image data')
+          imageUtils.uriToImageData(imageUri)
+          .then((res) => {
+            imageUtils.resizeImageData(res)
+            .then((ret) => {
 
-          if (typeof imageUri === 'string') {
-            setViewImage(imageUri)
-          } 
-          else {
-            setViewImage(imageUri.toString())
-          }
+              if (ret === null) return reject('invalid image data')
 
-          resolve(null)
+              setRawImageData(ret)
+              
+              let uri = imageUtils.imageDataToUri(ret)
+
+              if (uri) { 
+                setViewImage(uri.toString())
+                resolve(null)
+                setImageLoaded(true)
+                console.log('image loaded')
+              }
+              else {
+                reject('invalid image data')
+              }
+            })
+          })
+
         }
       }
       catch (err) {
@@ -143,45 +157,6 @@ const ImageAnalyzer = () => {
     })
   }
 
-  /**
-   * @param length 
-   * @param limit 
-   */
-  const getScale = (length: number, limit: number = DIM_LIMIT ) => {
-    let scale = 1 
-    scale = limit / length
-    return scale
-  }
-
-  /**
-   * rescale image on load
-   * Grid already resize the image, we don't really need it 
-   * 
-   * BUG:
-   * It keeps reloading scale 
-   * don't use percentage, use exact dimension instead
-   * @param param
-   */
-  const onViewImageLoad = ( evt : any) => {
-
-    // let img = evt.target
-    // let width = img.width
-    // let height = img.height
-
-    // let scale = 1 
-    // if (width > height) {
-    //   if (width > DIM_LIMIT) {
-    //     scale = getScale(width)
-    //   }
-    // }
-    // else {
-    //   if (height > DIM_LIMIT) {
-    //     scale = getScale(height)
-    //   }       
-    // }
-
-    // setViewImageScale(scale)
-  }
 
   // Item (paper) component with custom styled
   const Item = styled(Paper)(({ theme }) => ({
@@ -200,8 +175,8 @@ const ImageAnalyzer = () => {
 
   // make image within grid
   const imageStyle = {
-    width: '100%',
-    height: '100%'
+    // width: '100%',
+    // height: '100%'
   }
 
   /**
@@ -216,16 +191,16 @@ const ImageAnalyzer = () => {
   return (
     <div ref={dropRef}>
       <Box sx={{ p: 2 }} >
-        <Grid container spacing={2}>
+        <Grid container spacing={6}>
           <Grid item xs={4}>
             {/* image load area */}
             <Item>
               {
-                viewImage?
+                imageLoaded?
                   <img 
                     style={imageStyle as React.CSSProperties} 
                     src={viewImage} 
-                    onLoad={onViewImageLoad} alt="raw"
+                    // onLoad={onViewImageLoad} alt="raw"
                   />
                 : <p>Drop / Ctrl+V paste image here</p>
               }
@@ -239,6 +214,8 @@ const ImageAnalyzer = () => {
               }
             </Item>
           </Grid>
+
+
           <Grid item xs={4}>
             {/* Color Wheel */}
             <Item>

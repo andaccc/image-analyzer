@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
 import { styled } from '@mui/material/styles'
 
-import { getImageData } from '../utils/getImageData'
+import * as imageUtils from "../utils/imageUtils";
 import { grayScaleFilter } from '../utils/imageFilter'
 import { attachDrag } from '../utils/dragHandler'
 import { attachZoom } from '../utils/zoomHandler'
