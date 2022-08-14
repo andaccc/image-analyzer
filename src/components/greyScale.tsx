@@ -143,9 +143,7 @@ const GreyScale = (params: {imageData: ImageData}) => {
       spacing={1}
       justifyContent="center"
     >
-      <div
-        style={{ padding-bottom: "10px" }}
-      >
+      <div>
         {
           greyImageUrl &&
           <img style={imageStyle as React.CSSProperties} src={greyImageUrl} alt="gray thumbnail"/>

@@ -44,7 +44,12 @@ const ColorWheel = (params: {imageData: ImageData}) => {
 
   return (
     <div>
-      <img style={imageStyle as React.CSSProperties} src={colorWheelPng} onLoad={() => {}} alt="colorwheel"/>
+      {/* <img 
+        style={imageStyle as React.CSSProperties} 
+        src={colorWheelPng} 
+        onLoad={() => {}} 
+        alt="colorwheel"
+      /> */}
     </div>
   )
 }
