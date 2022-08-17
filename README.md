@@ -3,7 +3,7 @@
 - Value Curve
 - Color Map
 
-![image](https://user-images.githubusercontent.com/8611553/177363418-604aecb5-0d91-4ff5-8ad4-98c19355602e.png)
+![image](https://user-images.githubusercontent.com/8611553/185155375-91196a8a-06ac-40a3-bea7-54aaf893cf2f.png)
 
 https://main.dh3r6ksexvcpn.amplifyapp.com/
 
