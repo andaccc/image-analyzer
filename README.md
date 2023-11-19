@@ -1,5 +1,5 @@
 # image-analyzer
-
+Analyze image and output its 
 - Value Curve
 - Color Map
 
