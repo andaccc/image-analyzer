@@ -16,11 +16,12 @@ export default function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Router>
+      <Main/>
+      {/* <Router>
         <Switch>
           <Route path="/" component={Main} />
         </Switch>
-      </Router>
+      </Router> */}
     </ThemeProvider>
   );
 }
