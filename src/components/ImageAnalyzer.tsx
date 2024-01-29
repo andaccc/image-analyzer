@@ -18,6 +18,15 @@ import ColorWheel from "./colorWheel";
 
 const DIM_LIMIT = 300
 
+// Item (paper) component with custom styled
+export const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
+
 /**
  * TODO: resize image first 
  */
@@ -156,16 +165,6 @@ const ImageAnalyzer = () => {
       }
     })
   }
-
-
-  // Item (paper) component with custom styled
-  const Item = styled(Paper)(({ theme }) => ({
-    //backgroundColor: '#babcbe',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));
   
 
   const textStyle = {
@@ -189,53 +188,50 @@ const ImageAnalyzer = () => {
    * 
    */
   return (
-    <div ref={dropRef}>
-      <Box sx={{ p: 2 }} >
-        <Grid container spacing={6}>
-          <Grid item xs={4}>
-            {/* image load area */}
-            <Item>
-              {
-                imageLoaded?
-                  <img 
-                    style={imageStyle as React.CSSProperties} 
-                    src={viewImage} 
-                    // onLoad={onViewImageLoad} alt="raw"
-                  />
-                : <p>Drop / Ctrl+V paste image here</p>
-              }
-            </Item>
-          </Grid>
-          <Grid item xs={8}>
-            {/* GreyScale  */}
-            <Item>
-              {
-                imageLoaded && <GreyScale imageData={rawImageData}/>
-              }
-            </Item>
-          </Grid>
-
-
-          <Grid item xs={4}>
-            {/* Color Wheel */}
-            <Item>
-              {
-                imageLoaded && <ColorWheel imageData={rawImageData}/>
-              }
-            </Item>
-          </Grid>
-          <Grid item xs={8}>
-            {/* Color Key */}
-            <Item>
-              {
-                imageLoaded && <ColorKey imageData={rawImageData}/>
-              }
-            </Item>
-          </Grid>
+    <Box sx={{ p: 2 }} ref={dropRef} >
+      <Grid container spacing={6}>
+        <Grid item xs={4}>
+          {/* image load area */}
+          <Item>
+            {
+              imageLoaded?
+                <img 
+                  style={imageStyle as React.CSSProperties} 
+                  src={viewImage} 
+                  // onLoad={onViewImageLoad} alt="raw"
+                />
+              : <p>Drop / Ctrl+V paste image here</p>
+            }
+          </Item>
         </Grid>
-      </Box>
+        <Grid item xs={8}>
+          {/* GreyScale  */}
+          <Item>
+            {
+              imageLoaded && <GreyScale imageData={rawImageData}/>
+            }
+          </Item>
+        </Grid>
 
-    </div>
+
+        <Grid item xs={4}>
+          {/* Color Wheel */}
+          <Item>
+            {
+              imageLoaded && <ColorWheel imageData={rawImageData}/>
+            }
+          </Item>
+        </Grid>
+        <Grid item xs={8}>
+          {/* Color Key */}
+          <Item>
+            {
+              imageLoaded && <ColorKey imageData={rawImageData}/>
+            }
+          </Item>
+        </Grid>
+      </Grid>
+    </Box>
   )
 }
 

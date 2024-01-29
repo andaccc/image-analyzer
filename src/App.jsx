@@ -1,5 +1,3 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { createTheme , ThemeProvider  } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Main from './components/main'
@@ -17,11 +15,6 @@ export default function App() {
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <Main/>
-      {/* <Router>
-        <Switch>
-          <Route path="/" component={Main} />
-        </Switch>
-      </Router> */}
     </ThemeProvider>
   );
 }
