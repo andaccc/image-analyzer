@@ -19,7 +19,7 @@ export default class Main extends React.Component {
         {/* <ImageContextProvider>
           <ImageViewer />
         </ImageContextProvider> */}
-        {/* <WaterMark/> */}
+        <WaterMark/>
       </Container>
     )
   }
