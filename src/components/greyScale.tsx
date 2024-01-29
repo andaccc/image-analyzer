@@ -38,7 +38,7 @@ const GreyScale = (params: {imageData: ImageData}) => {
     setGreyImageData(greyImageData)
 
 
-  }, [])
+  }, [greyImageData])
 
   useEffect(() => {
     // image data to image uri 
@@ -83,7 +83,7 @@ const GreyScale = (params: {imageData: ImageData}) => {
     // why no data label in the end?
     // https://www.chartjs.org/docs/latest/axes/cartesian/_common_ticks.html
     if (!histCanvasRef?.current) return 
-
+    
     var chart = new Chart( histCanvasRef.current, {
       type: 'line' as ChartType, 
       data: chartData,
@@ -131,25 +131,27 @@ const GreyScale = (params: {imageData: ImageData}) => {
   }, [greyImageData])
 
 
-    // make image within grid
-    const imageStyle = {
-      // width: '50%',
-      // height: '50%'
-    }
-
-    
   return (
+    // Can just use Grid...
     <Stack 
       spacing={1}
       justifyContent="center"
     >
+      {/* Grey image */}
       <div>
         {
           greyImageUrl &&
-          <img style={imageStyle as React.CSSProperties} src={greyImageUrl} alt="gray thumbnail"/>
+          <img 
+            style={{
+                // width: '50%',
+                // height: '50%'
+            }}
+            src={greyImageUrl} alt="gray thumbnail"
+          />
         }
       </div>
 
+      {/* Hist */}
       <div style={{ display: "block", margin:"0 auto", width:"300px", height: "150px" }}>
         {
           <canvas ref={histCanvasRef} />

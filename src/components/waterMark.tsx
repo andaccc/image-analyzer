@@ -1,4 +1,5 @@
 import React from 'react'
+import packageJson from './../../package.json';
 
 const WaterMark = () => {
   const textStyle = {
@@ -9,9 +10,19 @@ const WaterMark = () => {
   } as React.CSSProperties
   
   return (
-    <a href={'https://github.com/andaccc'} target="_blank" rel="noreferrer">
-      <p style={textStyle}>github.com/andaccc</p>
-    </a>
+    <div>
+      <h5 style={{
+          position: 'fixed',
+          right: '10vh',
+          bottom: '3vh',
+          color: '#7B7B7B'
+      }} >
+        {packageJson.name} {packageJson.version}
+      </h5>
+      <a href={'https://github.com/andaccc'} target="_blank" rel="noreferrer">
+        <p style={textStyle}>github.com/andaccc</p>
+      </a>
+    </div>
   )
 }
 
