@@ -34,6 +34,7 @@ const GreyScale = (params: {imageData: ImageData}) => {
     // 3. create hist
 
     let tmpImageData = greyImageData
+    // change to grey scale
     tmpImageData.data.set(grayScaleFilter(tmpImageData.data))
     setGreyImageData(greyImageData)
 
@@ -41,6 +42,8 @@ const GreyScale = (params: {imageData: ImageData}) => {
   }, [greyImageData])
 
   useEffect(() => {
+    // draw hist chart
+    
     // image data to image uri 
 	  let tmpCanvas = document.createElement("canvas")
     tmpCanvas.width = greyImageData.width
@@ -54,7 +57,7 @@ const GreyScale = (params: {imageData: ImageData}) => {
     setGreyImageUrl(imageUrl)
 
 
-    // prepare hist
+    // prepare hist data
     let valueData = getHist(greyImageData.data, 0, 0, greyImageData.width, greyImageData.height)
     
 
@@ -91,10 +94,13 @@ const GreyScale = (params: {imageData: ImageData}) => {
         responsive: true,
         scales: {
           y: {
+            // type: 'logarithmic' ,
+            // min: 0,
+            // max: Math.sqrt(Math.max(...valueData)),
             beginAtZero: true,
             ticks: {
               display: false
-            }
+            },
           },
           x: {
             ticks: {
@@ -117,7 +123,7 @@ const GreyScale = (params: {imageData: ImageData}) => {
             display: false
           },
           tooltip: {
-            enabled: false
+            enabled: true
           }	
         }
       }
