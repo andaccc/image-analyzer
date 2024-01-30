@@ -4,10 +4,7 @@ import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 import { styled } from '@mui/material/styles'
 
-import { grayScaleFilter } from '../utils/imageFilter'
-import { attachDrag } from '../utils/dragHandler'
-import { attachZoom } from '../utils/zoomHandler'
-import { getHist } from '../utils/hist'
+import { ImageContext } from '../ImageContext'
 
 var quantize = require('quantize')
 
@@ -18,8 +15,9 @@ var quantize = require('quantize')
  * 
  * @param params 
  */
-const ColorKey = (params: {imageData: ImageData}) => {
-  const [rawImageData, setRawImageData] = useState(params.imageData)
+const ColorKey = () => {
+  const {imageData } = useContext(ImageContext)
+  
   const [colorCount, setColorCount] = useState(5) //default 
   const [colorKey, setColorKey] = useState([] as string[])
 
@@ -31,15 +29,16 @@ const ColorKey = (params: {imageData: ImageData}) => {
   useEffect(() => {
     // find the major color 
     // convert to hex map 
+    if (!imageData) return
 
     // extract rgb pixel
     let pixelArr = [] 
-    for (let i = 0; i < rawImageData.data.length; i += 4) {
+    for (let i = 0; i < imageData.data.length; i += 4) {
       // only need r,g,b channel
       let pixel = []
-      pixel[0] = rawImageData.data[i]
-      pixel[1] = rawImageData.data[i + 1]
-      pixel[2] = rawImageData.data[i + 2]
+      pixel[0] = imageData.data[i]
+      pixel[1] = imageData.data[i + 1]
+      pixel[2] = imageData.data[i + 2]
 
       pixelArr.push(pixel)
     }
@@ -57,7 +56,7 @@ const ColorKey = (params: {imageData: ImageData}) => {
     
     setColorKey(colorArr)
 
-    }, []
+    }, [imageData, colorCount]
   )
 
   

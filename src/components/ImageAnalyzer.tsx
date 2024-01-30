@@ -215,11 +215,11 @@ const ImageAnalyzer = () => {
         </Grid>
         <Grid item xs={8}>
           {/* Color Key */}
-          {/* <Item>
+          <Item>
             {
-              imageLoaded && <ColorKey imageData={rawImageData}/>
+              imageLoaded && <ColorKey/>
             }
-          </Item> */}
+          </Item>
         </Grid>
       </Grid>
     </Box>
