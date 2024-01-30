@@ -2,6 +2,7 @@ import React from "react";
 
 import Container from '@mui/material/Container'
 import ImageAnalyzer from "./ImageAnalyzer"
+import { ImageProvider } from "../ImageContext";
 import WaterMark from './waterMark'
 
 // main container
@@ -15,10 +16,9 @@ export default class Main extends React.Component {
   render() {
     return (
       <Container id="main">
-        <ImageAnalyzer/>
-        {/* <ImageContextProvider>
-          <ImageViewer />
-        </ImageContextProvider> */}
+        <ImageProvider>
+          <ImageAnalyzer/>
+        </ImageProvider>
         <WaterMark/>
       </Container>
     )

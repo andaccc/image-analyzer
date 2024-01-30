@@ -11,33 +11,30 @@ import * as imageUtils from "../utils/imageUtils";
 import GreyScale from "./greyScale";
 import ColorKey from "./colorKey";
 import ColorWheel from "./colorWheel";
+import { Item } from "./Item";
 
+import { ImageContext } from '../ImageContext'
 
 //https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
 //https://medium.com/@650egor/simple-drag-and-drop-file-upload-in-react-2cb409d88929
 
 const DIM_LIMIT = 300
 
-// Item (paper) component with custom styled
-export const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
+
 
 /**
  * TODO: resize image first 
  */
 const ImageAnalyzer = () => {
+  const { imageData, loadImageData } = React.useContext(ImageContext);
+
   // image url
   const [viewImage, setViewImage] = useState<string>("")
-  const [imageLoaded, setImageLoaded] = useState(false)
-  const [viewImageScale, setViewImageScale] = useState(1)
+  const [imageLoaded, setImageLoaded] = useState<Boolean>(false)
+  const [viewImageScale, setViewImageScale] = useState<Number>(1)
 
   const [rawImageUri, setRawImageUri] = useState<string>("")
-  const [rawImageData, setRawImageData] = useState<ImageData>(new ImageData(1,1))
+  const [rawImageData, setRawImageData] = useState<ImageData>()
 
   const dropRef = useRef<HTMLDivElement>(null)
 
@@ -59,7 +56,7 @@ const ImageAnalyzer = () => {
       }
     };
 
-  }, []) // run only once
+  }) // run only once
   
   useEffect(() => {
     // convertURIToImageData(viewImage)
@@ -73,7 +70,7 @@ const ImageAnalyzer = () => {
   /**
    * https://ourcodeworld.com/articles/read/491/how-to-retrieve-images-from-the-clipboard-with-javascript-in-the-browser
    * 
-   * get image from clipboard
+   * load image from clipboard
    * @param evt 
    * @returns 
    */
@@ -99,7 +96,7 @@ const ImageAnalyzer = () => {
   }
 
   /**
-   * on drag drop
+   * on drag drop image
    * @param evt 
    */
   const onDrop = (evt: DragEvent) => {
@@ -124,6 +121,11 @@ const ImageAnalyzer = () => {
   }
 
 
+  /**
+   * load image blob 
+   * @param imageBlob 
+   * @returns 
+   */
   const loadImage = (imageBlob : Blob) => {
     return new Promise( (resolve, reject) => {
       try {
@@ -131,10 +133,11 @@ const ImageAnalyzer = () => {
         reader.readAsDataURL(imageBlob)
         reader.onload = (evt: ProgressEvent<FileReader>) => {
           // image loaded
-          if (!evt.target?.result) return reject('invalid image data')
+          if (!evt.target?.result) return reject('no image data')
 
           let imageUri = evt.target.result
           if (!imageUri || typeof imageUri !== 'string') return reject('invalid image data')
+
           imageUtils.uriToImageData(imageUri)
           .then((res) => {
             imageUtils.resizeImageData(res)
@@ -142,7 +145,7 @@ const ImageAnalyzer = () => {
 
               if (ret === null) return reject('invalid image data')
 
-              setRawImageData(ret)
+              loadImageData(ret)
               
               let uri = imageUtils.imageDataToUri(ret)
 
@@ -166,18 +169,6 @@ const ImageAnalyzer = () => {
     })
   }
   
-
-  const textStyle = {
-    fontSize: '30px',
-    color: '#7B7B7B'
-  }
-
-  // make image within grid
-  const imageStyle = {
-    // width: '100%',
-    // height: '100%'
-  }
-
   /**
    * Components:
    * - Info
@@ -196,9 +187,9 @@ const ImageAnalyzer = () => {
             {
               imageLoaded?
                 <img 
-                  style={imageStyle as React.CSSProperties} 
+                  style={{}} 
                   src={viewImage} 
-                  // onLoad={onViewImageLoad} alt="raw"
+                  alt="rawImage"
                 />
               : <p>Drop / Ctrl+V paste image here</p>
             }
@@ -208,7 +199,7 @@ const ImageAnalyzer = () => {
           {/* GreyScale  */}
           <Item>
             {
-              imageLoaded && <GreyScale imageData={rawImageData}/>
+              imageLoaded && <GreyScale/>
             }
           </Item>
         </Grid>
@@ -216,19 +207,19 @@ const ImageAnalyzer = () => {
 
         <Grid item xs={4}>
           {/* Color Wheel */}
-          <Item>
+          {/* <Item>
             {
               imageLoaded && <ColorWheel imageData={rawImageData}/>
             }
-          </Item>
+          </Item> */}
         </Grid>
         <Grid item xs={8}>
           {/* Color Key */}
-          <Item>
+          {/* <Item>
             {
               imageLoaded && <ColorKey imageData={rawImageData}/>
             }
-          </Item>
+          </Item> */}
         </Grid>
       </Grid>
     </Box>

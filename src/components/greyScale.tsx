@@ -9,6 +9,8 @@ import { attachDrag } from '../utils/dragHandler'
 import { attachZoom } from '../utils/zoomHandler'
 import { getHist } from '../utils/hist'
 
+import { ImageContext } from '../ImageContext'
+
 import { Chart, ChartType, ChartConfiguration, registerables } from 'chart.js'
 
 Chart.register(...registerables)
@@ -19,31 +21,32 @@ Chart.register(...registerables)
  * - hist
  * @param params 
  */
-const GreyScale = (params: {imageData: ImageData}) => {
-  const [rawImageData, setRawImageData] = useState(params.imageData)
+const GreyScale = () => {
+  const {imageData } = useContext(ImageContext)
+
   // required deep copy
-  const [greyImageData, setGreyImageData] = useState(structuredClone(params.imageData))
+  const [greyImageData, setGreyImageData] = useState<ImageData>()
   const [greyImageUrl, setGreyImageUrl] = useState("")
 
 
 	const histCanvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    // 1. convert image to greyScale
-    // 2. put to thumbnail
-    // 3. create hist
-
-    let tmpImageData = greyImageData
     // change to grey scale
-    tmpImageData.data.set(grayScaleFilter(tmpImageData.data))
-    setGreyImageData(greyImageData)
+    if (!imageData) return
+    let tmp = structuredClone(imageData)
+
+    tmp.data.set(grayScaleFilter(tmp.data))
+    setGreyImageData(tmp)
 
 
-  }, [greyImageData])
+  }, [imageData])
 
   useEffect(() => {
     // draw hist chart
     
+    if (!greyImageData) return
+
     // image data to image uri 
 	  let tmpCanvas = document.createElement("canvas")
     tmpCanvas.width = greyImageData.width
